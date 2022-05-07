@@ -1,5 +1,5 @@
-#statistic modules
-##stats package
-mva,ema,rsi,bollinger band,macd
-##extrema package
-Search func for searching local min max.
+# Simple statistic calculation.
+## stats package
+Supports mva,ema,rsi,bollinger band,and macd
+## extrema package
+Use Search func to search local min max.
