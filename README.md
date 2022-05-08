@@ -8,9 +8,5 @@ Use Search func to search local min max.
 
 Fields of maxima and minima.
 
-"""
-{
-  Val []float64
-  Time [] int
-}
-"""
+・Val []float64　//values of local min or max
+・Time [] int //index of min or max
