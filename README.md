@@ -5,6 +5,7 @@ Supports mva,ema,rsi,bollinger band,and macd
 Use Search func to search local min max.
 > import "github.com/zenryokukun/dataprocess/extrema"  
 > maxima,minima := extrema.Search(*X,Y,Ratio*)  
+
 *X* is a slice of *int* representing time series.  
 *Y* is a slice of *float64* representing prices.  
 Ratio is a *float64* for detecting local min max.  
