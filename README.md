@@ -7,6 +7,7 @@ Use Search func to search local min max.
 > maxima,minima := extrema.Search([]int{1,2,3,...},[]float64{5.1,4.6,3.0,...},0.02)
 
 Fields of maxima and minima.
+
 """
 {
   Val []float64
