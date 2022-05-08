@@ -2,9 +2,9 @@ package stats
 
 //初回はcutler式
 //A/(A+B)が基本
-//m -> 日数.基本は14
+//n -> 日数.基本は14
 //A -> 上昇分の合計/n
-//B -> 下落分の合計/m
+//B -> 下落分の合計/n
 //差分が14個必要となるため、配列の長さは15必要。
 
 //2回目以降は、前回RSIを元に計算する(wilder式)：
@@ -17,6 +17,7 @@ package stats
 import "math"
 
 type (
+	//初期化するときに価格も一緒に渡すやつ
 	Rsi struct {
 		Rsi       []float64
 		A         float64 //plus average
@@ -24,6 +25,11 @@ type (
 		MaxLength int     //Rsiの最大保有数
 		n         int     //日数 default:14
 		last      float64 //最後の価格
+	}
+	//価格なしで初期化するやつ
+	RsiEmp struct {
+		Prices []float64
+		Rsi
 	}
 )
 
@@ -48,6 +54,10 @@ func cutler(prices []float64, n int) (float64, float64, float64) {
 	return A / (A + B), A, B
 }
 
+//************************************************
+//constructors
+//************************************************
+
 //prices 価格の配列。n+1の長さである必要がある。
 //n　何個分の平均とするか。ふつうは14だけど選べる。
 //ml　最大何個のrsiを保存しておくか
@@ -65,6 +75,19 @@ func NewRsi(prices []float64, n, ml int) *Rsi {
 		MaxLength: ml,
 	}
 }
+
+func NewRsiEmp(n, ml int) *RsiEmp {
+	return &RsiEmp{
+		Rsi: Rsi{
+			n:         n,
+			MaxLength: ml,
+		},
+	}
+}
+
+//************************************************
+//Rsi methods
+//************************************************
 
 //rsiを更新する関数
 //vは現在価格を想定
@@ -92,5 +115,27 @@ func (r *Rsi) Update(v float64) {
 	if len(r.Rsi) > r.MaxLength {
 		st := len(r.Rsi) - r.MaxLength
 		r.Rsi = r.Rsi[st:]
+	}
+}
+
+//************************************************
+//RsiEmp methods
+//************************************************
+func (r *RsiEmp) Update(v float64) {
+	if len(r.Rsi.Rsi) > 0 {
+		//２回目以降のrsi計算
+		r.Rsi.Update(v)
+	} else {
+		//まだRsi計算する分のpriceが溜まっていない状態
+		r.Prices = append(r.Prices, v)
+		if len(r.Prices) == r.n+1 {
+			//溜まったら初回の設定処理
+			rsi, A, B := cutler(r.Prices, r.n)
+			r.Rsi.Rsi = append(r.Rsi.Rsi, rsi)
+			r.Rsi.A = A
+			r.Rsi.B = B
+			r.Rsi.last = v
+			r.Prices = nil
+		}
 	}
 }
