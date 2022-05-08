@@ -12,4 +12,4 @@ Ratio is a *float64* for detecting local min max.
 
 ### Fields of maxima and minima.
 *Val []float64*    Local max or min extracted from *Y*  
-*Time []int*       corresponding *X*
+*Time []int*       Extracted *X* corresponding *Val*
