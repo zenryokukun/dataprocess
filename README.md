@@ -10,4 +10,6 @@ Use Search func to search local min max.
 *Y* is a slice of *float64* representing prices.  
 Ratio is a *float64* for detecting local min max.  
 
-Fields of maxima and minima.
+### Fields of maxima and minima.
+*Val []float64*    Local max or min extracted from *Y*  
+*Time []int*       corresponding *X*
