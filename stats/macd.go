@@ -1,5 +1,7 @@
 package stats
 
+import "math"
+
 type (
 	Macd struct {
 		Short    *EmaEmp //短期EMA default:12
@@ -28,6 +30,22 @@ func (m *Macd) Update(v float64) {
 	if m.isSignalReady() {
 		m.updateSignal()
 	}
+}
+
+//returns the most recent MACD
+func (m *Macd) Last() float64 {
+	if len(m.Macd) == 0 {
+		return math.NaN()
+	}
+	return m.Macd[len(m.Macd)-1]
+}
+
+//returns the most recent Signal
+func (m *Macd) LastSignal() float64 {
+	if len(m.Signal) == 0 {
+		return math.NaN()
+	}
+	return m.Signal[len(m.Signal)-1]
 }
 
 func (m *Macd) updateMacd(v float64) {

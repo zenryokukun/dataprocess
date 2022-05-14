@@ -1,7 +1,6 @@
 package stats
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -21,6 +20,8 @@ func NewBollinger(itv, ml int) *Bollinger {
 	}
 }
 
+//updates bollinge
+//yo
 func (b *Bollinger) Update(v float64) {
 	b.Mva.Update(v)
 	if len(b.Mva.Avg) > 0 {
@@ -28,9 +29,17 @@ func (b *Bollinger) Update(v float64) {
 	}
 }
 
+//returns the most recent b.Std.
+//returns NaN when b.Std is not yet set.
+func (b *Bollinger) Last() float64 {
+	if len(b.Std) == 0 {
+		return math.NaN()
+	}
+	return b.Std[len(b.Std)-1]
+}
+
 //標準偏差を計算する関数
 func (b *Bollinger) setStd() {
-	fmt.Println(len(b.Mva.Avg))
 	st := len(b.Mva.Prices) - b.Mva.Interval
 	prices := b.Mva.Prices[st:]        //平均計算用の配列
 	mva := b.Mva.Avg[len(b.Mva.Avg)-1] //直近の移動平均

@@ -1,5 +1,7 @@
 package stats
 
+import "math"
+
 type (
 	//初期化時に価格の配列が必要なほう
 	Ema struct {
@@ -68,6 +70,9 @@ func (e *Ema) Update(v float64) {
 
 //直近のemaを返す
 func (e *Ema) Last() float64 {
+	if len(e.Avg) == 0 {
+		return math.NaN()
+	}
 	return e.Avg[len(e.Avg)-1]
 }
 
@@ -120,6 +125,9 @@ func (e *EmaEmp) Update(v float64) {
 }
 
 func (e *EmaEmp) Last() float64 {
+	if len(e.Avg) == 0 {
+		return math.NaN()
+	}
 	return e.Avg[len(e.Avg)-1]
 }
 

@@ -1,5 +1,7 @@
 package stats
 
+import "math"
+
 type (
 	Mva struct {
 		Prices    []float64 //価格の配列
@@ -34,6 +36,13 @@ func (m *Mva) Update(price float64) {
 		m.Avg = append(m.Avg, avg)
 		m.shift()
 	}
+}
+
+func (m *Mva) Last() float64 {
+	if len(m.Avg) == 0 {
+		return math.NaN()
+	}
+	return m.Avg[len(m.Avg)-1]
 }
 
 //MaxLengthを超えたときに、古いデータを切り捨てる

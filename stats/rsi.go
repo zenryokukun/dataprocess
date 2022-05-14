@@ -139,3 +139,10 @@ func (r *RsiEmp) Update(v float64) {
 		}
 	}
 }
+
+func (r *RsiEmp) Last() float64 {
+	if len(r.Rsi.Rsi) == 0 {
+		return math.NaN()
+	}
+	return r.Rsi.Rsi[len(r.Rsi.Rsi)-1]
+}
