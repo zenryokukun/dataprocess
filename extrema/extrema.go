@@ -1,5 +1,10 @@
 package extrema
 
+/*
+Exports
+	Search([]int,[]float64)(max,min *Extrema)
+*/
+
 type (
 	Extrema struct {
 		Val  []float64
