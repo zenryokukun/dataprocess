@@ -3,18 +3,21 @@ package extrema
 type (
 	//Updateで価格をため込むやつ
 	Iterator struct {
-		TimeIndices []int
-		Highs       []float64
-		Lows        []float64
-		ratio       float64
+		TimeIndices []int     //時間をindexで表現
+		Highs       []float64 //高値
+		Lows        []float64 //底値
+		ratio       float64   //ratio分高値or底値から切り返すと、高値or底値をFIXさせる
 	}
-	//ある時点における高値・底値情報
+
+	//Extremaの情報。価格、時間、時間(index)、現在時間と高値底値の時間との差
 	localInf struct {
 		Price     float64 //価格
 		Time      string  //時間
 		TimeIndex int     //時間をindexで表現
 		Distance  int     //現在時刻との距離
 	}
+
+	//ある時点における高値・底値情報
 	HighLow struct {
 		High *localInf
 		Low  *localInf
